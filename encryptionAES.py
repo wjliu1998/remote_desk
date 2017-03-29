@@ -49,6 +49,9 @@ def certificate(username, passwd):
         cipher = AES.new(key, AES.MODE_CFB, iv)
         msg2 = iv + cipher.encrypt(passwd)
         ciphertext2 = binascii.b2a_hex(msg2)
-        if(user == username and ciphertext == ciphertext2):
+        #print user, username, user==username
+        #print ciphertext, ciphertext2+os.linesep, ciphertext==ciphertext2+os.linesep
+        if(user == username and ciphertext == ciphertext2+os.linesep):
             return True
-    return False
+        else:
+            return False

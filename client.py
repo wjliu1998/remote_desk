@@ -1,5 +1,5 @@
 #! /usr/bin/python
-
+import os
 import socket
 
 host = '192.168.1.111'
@@ -12,10 +12,14 @@ def client(port):
 	server.connect(server_address)
 	
 	try:
-            raw_input("1 for login, 2 for logup")
+            identity = raw_input("1 for login, 2 for logup")
+            server.sendall(identity)
 	    ID=raw_input("Enter your ID: ")
 	    server.sendall(ID)
-	    Password=raw_input("Password: ")
+	    password=raw_input("Password: ")
+            server.sendall(password)
+            if("Correct" == server.recv(1024)):
+                os.system("rdesktop %s -u %s -p %s" % (host, ID, password))
 	except socket.errno, e:
 	    print "Socket error: %s" %str(e)
 	except Exception, e:
