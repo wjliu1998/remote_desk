@@ -12,16 +12,17 @@ def client(port):
 	server.connect(server_address)
 	
 	try:
-		ID=raw_input("Enter your ID: ")
-		server.sendall(ID)
-		Password=raw_input("Password: ")
+            raw_input("1 for login, 2 for logup")
+	    ID=raw_input("Enter your ID: ")
+	    server.sendall(ID)
+	    Password=raw_input("Password: ")
 	except socket.errno, e:
-		print "Socket error: %s" %str(e)
+	    print "Socket error: %s" %str(e)
 	except Exception, e:
-		print "Other exception: %s" %str(e)
+	    print "Other exception: %s" %str(e)
 	finally:
-		print"Closing..."
-		server.close()
+	    print"Closing..."
+	    server.close()
 
 if __name__ == '__main__':
 	client(port)

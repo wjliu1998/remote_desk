@@ -3,6 +3,7 @@
 from Crypto.Cipher import AES
 from Crypto import Random
 import binascii
+import os
 
 #encrypt
 def encrypt(passwd):
@@ -14,15 +15,19 @@ def encrypt(passwd):
     return iv,ciphertext
 
 #save iv and ciphertext
-def save(iv,ciphertext):
-    with open('iv.txt','w') as f:
-        f.write(iv)
-    with open('ciphertext.txt','w') as f:
-        f.write(ciphertext)
+def save(username, iv, ciphertext):
+    #with open('iv.txt','w') as f:
+    #    f.write(iv)
+    #with open('ciphertext.txt','w') as f:
+    #    f.write(ciphertext)
+    f = open("user", "r+")
+    f.seek(0, 2)
+    f.write(username + ":" + iv + ":" + ciphertext + os.linesep)
+    return True
 
 #certificate
-def certificate(passwd2):
-    with open('iv.txt') as f:
+def certificate(username, passwd):
+    '''with open('iv.txt') as f:
         iv=f.read()
     with open('ciphertext.txt') as f:
         ciphertext=f.read()
@@ -33,19 +38,17 @@ def certificate(passwd2):
     if ciphertext==ciphertext2:
         print 'pass certification'
     else:
-        print 'fail certification'
-        
-#test 
-passwd='12345678'
-print 'original password:',passwd
+        print 'fail certification'''
 
-iv,ciphertext=encrypt(passwd)
-print 'iv:',iv
-print 'ciphertext:',ciphertext
+    key = 'Sixteen byte key'
+    f = open("user", "r+")
+    allLines = f.readlines()
 
-save(iv,ciphertext)
-
-passwd2='12345678'
-print 'password input:',passwd2
-
-certificate(passwd2)
+    for eachline in allLines:
+        (user, iv, ciphertext) = eachline.split(":")
+        cipher = AES.new(key, AES.MODE_CFB, iv)
+        msg2 = iv + cipher.encrypt(passwd)
+        ciphertext2 = binascii.b2a_hex(msg2)
+        if(user == username and ciphertext == ciphertext2):
+            return True
+    return False
