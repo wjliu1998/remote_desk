@@ -2,8 +2,8 @@
 
 import socket
 
-host = 'localhost'
-port = 54321
+host = '192.168.1.111'
+port = 12000
 
 def client(port):
 	server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
