@@ -2,7 +2,7 @@
 import os
 import socket
 import encryptionAES
-
+import user_operation
 port = 12000
 
 def server(port):
@@ -19,6 +19,7 @@ def server(port):
 
 	while True:
 		print "Waiting to be connected..."
+
 		client, address = server.accept()
                 identity = client.recv(1024)
                 print identity
@@ -26,16 +27,26 @@ def server(port):
                 print username
                 password = client.recv(1024)
                 print password
+                #log in             
                 if(identity == '1'):
-                    if(encryptionAES.certificate(username, password) == True):
+                    if(encryptionAES.certificate(username, password)[0] == True):
                         client.send("Correct")
                     else:
                         client.send("Wrong")
+                #log up
                 elif(identity == '2'):
                     (iv, ciphertext) = encryptionAES.encrypt(password)
-                    if(encryptionAES.save(username, iv, ciphertext)):
-                        print "Logup successfully!"
+                    if(user_operation.create_new_user(username, iv, ciphertext)):
+                        client.send("Log up successfully")
+                    else:
+                        client.send("The username has already been logged up")
+                #delete account
                 elif(identity == '3'):
+                   response = user_operation.delete_user(username, password)
+                   if(response):
+                       client.send("Correct")
+                   else:
+                       client.send("Wrong")
 		client.close()
 
 if __name__== '__main__':
