@@ -12,14 +12,17 @@ def client(port):
 	server.connect(server_address)
 	
 	try:
-            identity = raw_input("1 for login, 2 for logup")
+            identity = raw_input("1 for login, 2 for logup:")
             server.sendall(identity)
-	    ID=raw_input("Enter your ID: ")
-	    server.sendall(ID)
+	    username=raw_input("Username: ")
+	    server.sendall(username)
 	    password=raw_input("Password: ")
             server.sendall(password)
-            if("Correct" == server.recv(1024)):
-                os.system("rdesktop %s -u %s -p %s" % (host, ID, password))
+            response = server.recv(1024)
+            if(response == "Correct"):
+                os.system("rdesktop %s -u %s -p %s" % (host, username, password))
+            elif(response == "Wrong"):
+                print "Wrong username or password"
 	except socket.errno, e:
 	    print "Socket error: %s" %str(e)
 	except Exception, e:

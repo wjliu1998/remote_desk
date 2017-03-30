@@ -5,7 +5,7 @@ from Crypto import Random
 import binascii
 import os
 
-#encrypt
+#encrypt password
 def encrypt(passwd):
     key = 'Sixteen byte key'
     iv = Random.new().read(AES.block_size)
@@ -14,7 +14,7 @@ def encrypt(passwd):
     ciphertext = binascii.b2a_hex(msg)
     return iv,ciphertext
 
-#save iv and ciphertext
+#save username, iv and ciphertext to the file
 def save(username, iv, ciphertext):
     #with open('iv.txt','w') as f:
     #    f.write(iv)
@@ -25,20 +25,8 @@ def save(username, iv, ciphertext):
     f.write(username + ":" + iv + ":" + ciphertext + os.linesep)
     return True
 
-#certificate
+#certificate the correctness of username and passwd
 def certificate(username, passwd):
-    '''with open('iv.txt') as f:
-        iv=f.read()
-    with open('ciphertext.txt') as f:
-        ciphertext=f.read()
-    key = 'Sixteen byte key'
-    cipher = AES.new(key, AES.MODE_CFB, iv)
-    msg2 = iv + cipher.encrypt(passwd2)
-    ciphertext2 = binascii.b2a_hex(msg2)
-    if ciphertext==ciphertext2:
-        print 'pass certification'
-    else:
-        print 'fail certification'''
 
     key = 'Sixteen byte key'
     f = open("user", "r+")
@@ -49,8 +37,6 @@ def certificate(username, passwd):
         cipher = AES.new(key, AES.MODE_CFB, iv)
         msg2 = iv + cipher.encrypt(passwd)
         ciphertext2 = binascii.b2a_hex(msg2)
-        #print user, username, user==username
-        #print ciphertext, ciphertext2+os.linesep, ciphertext==ciphertext2+os.linesep
         if(user == username and ciphertext == ciphertext2+os.linesep):
             return True
         else:
