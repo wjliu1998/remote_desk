@@ -22,7 +22,7 @@ def client(port):
             if(identity == '1'):
                 if(response == "Correct"):
                     os.system("rdesktop %s -u %s -p %s" % (host, username, password))
-                 elif(response == "Wrong"):
+                elif(response == "Wrong"):
                     print "Wrong username or password"
             elif(identity == '2'):
                 print response

@@ -12,7 +12,8 @@ def find_current_user(username):
     return False
 
 def create_new_user(username, iv, ciphertext):
-    if(!find_current_user(username)):
+    
+    if(find_acurrent_user(username) == False):
         return False
     f = open("user", 'r+')
     f.seek(0, 2)
@@ -21,10 +22,10 @@ def create_new_user(username, iv, ciphertext):
     return True
 
 def delete_user(username, password):
-    if(!find_current_user(username)):
+    if(find_current_user(username) == False):
         return False
     identity = encryptionAES.certificate(username, password)
-    if(!identity[0]):
+    if(identity[0] == False):
         return False
     else:
         f = open('user', 'r+')
