@@ -1,4 +1,5 @@
 import encryptionAES
+import os
 
 def find_current_user(username):
     f = open("user", "r+")
@@ -7,13 +8,13 @@ def find_current_user(username):
         user = eachline.split(":")[0]
         if(user == username):
             f.close()
-            return True
+            return False
     f.close()
-    return False
+    return True
 
 def create_new_user(username, iv, ciphertext):
     
-    if(find_acurrent_user(username) == False):
+    if(find_current_user(username) == False):
         return False
     f = open("user", 'r+')
     f.seek(0, 2)
@@ -22,7 +23,7 @@ def create_new_user(username, iv, ciphertext):
     return True
 
 def delete_user(username, password):
-    if(find_current_user(username) == False):
+    if(find_current_user(username) == True):
         return False
     identity = encryptionAES.certificate(username, password)
     if(identity[0] == False):

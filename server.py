@@ -43,11 +43,11 @@ def server(port):
                 #delete account
                 elif(identity == '3'):
                    response = user_operation.delete_user(username, password)
-                   if(response):
+                   if(response == True):
                        client.send("Correct")
                    else:
                        client.send("Wrong")
-		client.close()
+    	        client.close()
 
 if __name__== '__main__':
 	server(port)
