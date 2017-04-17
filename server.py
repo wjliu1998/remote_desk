@@ -3,6 +3,9 @@ import os
 import socket
 import encryptionAES
 import user_operation
+import ipstore
+import time
+
 port = 12000
 
 def server(port):
@@ -27,12 +30,26 @@ def server(port):
                 print username
                 password = client.recv(1024)
                 print password
+
                 #log in             
                 if(identity == '1'):
                     if(encryptionAES.certificate(username, password)[0] == True):
                         client.send("Correct")
+			ip = ipstore.find_ip()
+			time.sleep(1)
+			client.send(ip)
+			while(1):
+				time.sleep(5)
+				client.sendall("ARE YOU OK")
+				check = client.recv(1024)
+				if(check == "Still in use"):
+					print check
+				else:
+					break
+			ipstore.recycle_ip(ip)
                     else:
                         client.send("Wrong")
+
                 #log up
                 elif(identity == '2'):
                     (iv, ciphertext) = encryptionAES.encrypt(password)
@@ -40,6 +57,7 @@ def server(port):
                         client.send("Log up successfully")
                     else:
                         client.send("The username has already been logged up")
+                        
                 #delete account
                 elif(identity == '3'):
                    response = user_operation.delete_user(username, password)
