@@ -53,10 +53,13 @@ def server(port):
                 #log up
                 elif(identity == '2'):
                     (iv, ciphertext) = encryptionAES.encrypt(password)
-                    if(user_operation.create_new_user(username, iv, ciphertext)):
+                    answer = user_operation.create_new_user(username, iv, ciphertext)
+                    if(answer == True):
                         client.send("Log up successfully")
-                    else:
+                    elif(answer == False):
                         client.send("The username has already been logged up")
+                    else:
+                        client.send("Invalid username or password")
                         
                 #delete account
                 elif(identity == '3'):

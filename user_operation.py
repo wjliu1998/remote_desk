@@ -1,6 +1,12 @@
 import encryptionAES
 import os
 
+def check_valid(string):
+    for letter in string:
+        if letter == ":":
+            return False
+    return True
+
 def find_current_user(username):
     f = open("user", "r+")
     allLine = f.readlines()
@@ -13,7 +19,8 @@ def find_current_user(username):
     return True
 
 def create_new_user(username, iv, ciphertext):
-    
+    if(check_valid(username)==False or check_valid(iv)==False or check_valid(ciphertext)==False):
+        return "Invalid"
     if(find_current_user(username) == False):
         return False
     f = open("user", 'r+')

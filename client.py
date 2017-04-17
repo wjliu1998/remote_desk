@@ -21,7 +21,6 @@ def client(port):
 	    password=raw_input("Password: ")
             server.sendall(password)
             response = server.recv(1024)
-            print response
 
             #When user tries to log in
             if(identity == '1'):
