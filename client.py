@@ -3,10 +3,10 @@
 import os
 import socket
 
-host = '127.0.0.1'
-port = 12000
+#host = '127.0.0.1'
+#port = 12000
 
-def client(port):
+def client(host, port, identity, username, password):
 	server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	server_address = (host, port)
 	print "Connecting to %s port %s" %server_address
@@ -14,12 +14,13 @@ def client(port):
 	
 	try:
             #determin the operation
-            identity = raw_input("1 for login, 2 for logup, 3 for delete:")
-            server.sendall(identity)
-	    username=raw_input("Username: ")
-	    server.sendall(username)
-	    password=raw_input("Password: ")
-            server.sendall(password)
+            #identity = raw_input("1 for login, 2 for logup, 3 for delete:")
+            #server.sendall(identity)
+	    #username=raw_input("Username: ")
+	    #server.sendall(username)
+	    #password=raw_input("Password: ")
+            #server.sendall(password)
+            server.sendall(identity+":"+username+":"+password)
             response = server.recv(1024)
 
             #When user tries to log in

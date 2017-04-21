@@ -24,11 +24,18 @@ def server(port):
 		print "Waiting to be connected..."
 
 		client, address = server.accept()
-                identity = client.recv(1024)
+                '''identity = client.recv(1024)
                 print identity
                 username = client.recv(1024)
                 print username
                 password = client.recv(1024)
+                print password'''
+                transfer = client.recv(1024).split(":")
+                identity = transfer[0]
+                username = transfer[1]
+                password = transfer[2]
+                print identity
+                print username
                 print password
 
                 #log in             
